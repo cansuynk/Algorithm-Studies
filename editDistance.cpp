@@ -44,16 +44,16 @@ int editDistance(string s, string t, int m, int n) {
 }
 
 //recursive programming
-int editDistance_dynamic(string s, string t, int m, int n){
+int editDistance_recursive(string s, string t, int m, int n){
     if(m==0)
         return n;
     if(n==0)
         return m;
     
     if(s[m - 1] == t[n - 1]){
-        return editDistance_dynamic(s, t, m-1, n-1);
+        return editDistance_recursive(s, t, m-1, n-1);
     }
-    return 1 + min(editDistance_dynamic(s,t,m,n-1), editDistance_dynamic(s,t,m-1,n), editDistance_dynamic(s,t,m-1,n-1));
+    return 1 + min(editDistance_recursive(s,t,m,n-1), editDistance_recursive(s,t,m-1,n), editDistance_recursive(s,t,m-1,n-1));
 }
 
 int main(){
@@ -62,7 +62,7 @@ int main(){
     string str2 = "saturday";
 
     cout << editDistance(str1, str2, str1.length(), str2.length()) << endl;
-    cout << editDistance_dynamic(str1, str2, str1.length(), str2.length());
+    cout << editDistance_recursive(str1, str2, str1.length(), str2.length());
 
     return 0;
 }
