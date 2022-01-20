@@ -6,6 +6,10 @@ My Solutions of Some Leetcode Questions
 #include <stdio.h>
 #include <vector>
 #include <iostream>
+#include <climits>
+#include <string>
+#include<cmath>
+
 
 using namespace std;
 
@@ -142,6 +146,98 @@ bool isValidSudoku(vector<vector<char>>& board) {
     return true;
 }
 
+//https://leetcode.com/explore/featured/card/top-interview-questions-easy/127/strings/880/
+int reverse(int x) {
+    
+    bool neg = false;
+    
+    if(x == INT_MIN){
+        return 0;
+    }
+    if(x<0){
+        neg = true;
+        x = x*-1;
+    }
+    
+    int size = to_string(x).size();
+    long ans = 0;
+    int i = size-1;
+    int j = 0;
+    
+     
+    while(i>=0){
+        if (ans + floor(x/pow(10,i))*pow(10,j) > INT_MAX){
+            return 0;
+        }
+        ans += floor(x/pow(10,i))*pow(10,j);
+        x -= floor(x/pow(10,i))*pow(10,i);
+        i--;
+        j++;
+    }
+    
+    ans = neg ? ans*-1: ans;
+    return ans;
+}
+
+int maxSubArray(vector<int>& nums) {
+    
+    int max = INT_MIN;
+    int sum = 0;
+    
+    //5,4,-1,7,8
+    for(int i=0; i<nums.size(); i++){
+        
+        sum += nums[i];
+        
+        if(sum>max){
+            max = sum;
+        }
+        else if(sum<0){
+            sum = 0;
+        }
+    }
+    
+    return max;
+    
+}
+
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    
+    vector<int>M(m,0);
+    
+    for(int i=0; i<m; i++){
+        M[i] = nums1[i];
+    }
+    
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    
+    while(i<m && j<n){
+        if(M[i] < nums2[j]){
+            nums1[k] = M[i];
+            i++;
+        }
+        else{
+            nums1[k] = nums2[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while(i<m){
+        nums1[k] = M[i];
+        i++;
+        k++;
+    }
+    
+    while(j<n){
+        nums1[k] = nums2[j];
+        j++;
+        k++;
+    }
+}
+
 int main()
 {
     /*
@@ -180,6 +276,20 @@ int main()
     
     
     cout << isValidSudoku(board) << endl;
+	
+	
+	
+	int x = INT_MAX; 
+    cout << reverse(x) << endl;
+    
+    vector <int> nums ={5,4,-1,7,8};
+    cout << maxSubArray(nums) << endl;
+    
+    vector <int> nums1 = {0};
+    vector <int> nums2 = {1};
+    
+    merge(nums1, 0, nums2, 1);
+    printVector(nums1);
     
     return 0;
 }
